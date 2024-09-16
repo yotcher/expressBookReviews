@@ -29,7 +29,7 @@ regd_users.post("/login", (req,res) => {
     if (authenticatedUser(username, password)) {
         let accessToken = jwt.sign({
         data: password
-        }, 'access', { expiresIn: 60 });
+        }, 'access', { expiresIn: 60 * 60 });
 
         req.session.authorization = {
         accessToken, username
@@ -42,14 +42,24 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+    isbn = req.params.isbn;
+    review = req.params.review;
+    username = req.session.authorization.username;
+    if (books[isbn].reviews) {
+        books[isbn].reviews[username] = review
+    }
 });
 
 regd_users.get("/", (req, res) => {
-    //Write your code here
-    return res.status(300).json({message: "Yet to be implemented"});
-  });
+    res.send(JSON.stringify(books));
+});
+
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    isbn = req.params.isbn;
+    username = req.session.authorization.username;
+    newBooks = {...books}
+    newBooks[isbn].reviews[username] = null
+})
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
