@@ -28,6 +28,7 @@ public_users.get('/',function (req, res) {
     res.send(JSON.stringify(books));
 });
 
+
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
     const isbn = req.params.isbn;
@@ -36,16 +37,16 @@ public_users.get('/isbn/:isbn',function (req, res) {
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-    // const author = req.params.auther;
-    // booksList = [];
-    // for (let key in books){
-    //     booksList.push(books[key]);
-    // }
-    // console.log("now");
-    // const relBooks = booksList.filter(book => book.author === author);
-    // if (relBooks.length > 0){
-    //      res.send("fvsdv");
-    // }
+    const author = req.params.auther;
+    booksList = [];
+    for (let key in books){
+        booksList.push(books[key]);
+    }
+    console.log("now");
+    const relBooks = booksList.filter(book => book.author === author);
+    if (relBooks.length > 0){
+         res.send("fvsdv");
+    }
 });
 
 // Get all books based on title
